@@ -1,0 +1,41 @@
+import java.math.BigInteger;
+import java.util.Random;
+
+public class DiffieHellman{
+
+     public static void main(String []args){
+        Random ran = new Random();
+        BigInteger p = new BigInteger(128,5,ran);
+        System.out.println("Public p value is chosen: "+ p);
+        
+        BigInteger g = new BigInteger(128,5,ran);
+        System.out.println("Public g value is chosen: "+ g);
+        System.out.println("Note: p and g must be coprime");
+        
+        BigInteger a1 = new BigInteger(16,ran);
+        BigInteger b1 = new BigInteger(16,ran);
+        int a2 = a1.intValue();
+        int b2 = b1.intValue();
+        System.out.println("a: Tim's private value is chosen: " + a2);
+        System.out.println("b: Matt's private value is chosen: " + b2);
+        
+        BigInteger A = g.pow(a2);
+        A = A.mod(p);
+        System.out.println("Matt calculates A=g^a mod p and sends it to Tim: " + A);
+        
+        BigInteger B = g.pow(b2);
+        B = B.mod(p);
+        System.out.println("Tim calculates B=g^b mod p and sends it to Matt: " + B);
+        
+        BigInteger s1 = B.pow(a2);
+        s1 = s1.mod(p);
+        System.out.println("Matt calculates S=B^a mod p: " + s1);
+        
+        BigInteger s2 = A.pow(b2);
+        s2 = s2.mod(p);
+        System.out.println("Tim calculates S=A^b mod p: " + s2);
+        
+        System.out.println("Shared secret has been established with "+ s1.bitLength() + " bits!");
+
+     }
+}
